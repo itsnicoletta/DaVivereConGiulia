@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const publicAsset = usePublicAsset()
 import { site } from '~/data/site'
 import { events, type DemoEvent } from '~/data/events'
 
@@ -52,14 +53,14 @@ const year = new Date().getFullYear()
 <template>
   <div class="d2 demo-mix">
     <header class="d2-header d2-shell" @keydown.esc="menuOpen = false; menuButton?.focus()">
-      <a href="#copertina" class="d2-logo" aria-label="Da Vivere con Giulia, inizio"><img src="/images/logo.png" width="1642" height="660" alt="Da Vivere! con Giulia"></a>
+      <a href="#copertina" class="d2-logo" aria-label="Da Vivere con Giulia, inizio"><img :src="publicAsset('/images/logo.png')" width="1642" height="660" alt="Da Vivere! con Giulia"></a>
       <button ref="menuButton" class="d2-menu" :disabled="!ready" :aria-expanded="menuOpen" aria-controls="mobile-navigation" @click="openMobileMenu">Menu <span class="demo-menu-icon" aria-hidden="true"><i></i><i></i></span></button>
       <nav id="d2-navigation" aria-label="Navigazione principale"><a v-for="(item, index) in nav" :key="item.href" :href="item.href" @click="menuOpen = false"><span>0{{ index + 1 }}</span>{{ item.title }}</a></nav>
       <button class="d2-button demo-contact-button" type="button" disabled>Facciamo conoscenza <span aria-hidden="true">↗</span></button>
     </header>
 
     <dialog ref="mobileMenuDialog" class="demo-mobile-menu" aria-label="Menu principale" @close="menuOpen = false">
-      <div class="demo-mobile-menu-top"><a class="demo-menu-logo" href="#copertina" @click="mobileMenuDialog?.close()"><img src="/images/logo.png" width="1642" height="660" alt="Da Vivere! con Giulia"></a><button class="demo-menu-close" type="button" @click="mobileMenuDialog?.close()">Chiudi <span aria-hidden="true">×</span></button></div>
+      <div class="demo-mobile-menu-top"><a class="demo-menu-logo" href="#copertina" @click="mobileMenuDialog?.close()"><img :src="publicAsset('/images/logo.png')" width="1642" height="660" alt="Da Vivere! con Giulia"></a><button class="demo-menu-close" type="button" @click="mobileMenuDialog?.close()">Chiudi <span aria-hidden="true">×</span></button></div>
       <nav id="mobile-navigation" aria-label="Navigazione mobile"><a v-for="(item, index) in nav" :key="item.href" :href="item.href" @click="mobileMenuDialog?.close()"><span class="demo-menu-number">0{{ index + 1 }}</span><span>{{ item.title }}</span><span aria-hidden="true">↗</span></a></nav>
       <div class="demo-menu-bottom"><p>Luoghi, incontri e cose belle.<br>Da vivere, con Giulia.</p><button class="d2-button" type="button" disabled>Facciamo conoscenza <span aria-hidden="true">↗</span></button></div>
     </dialog>
@@ -82,7 +83,7 @@ const year = new Date().getFullYear()
     </main>
     <footer class="demo-footer">
       <div class="demo-footer-inner">
-        <div class="demo-footer-top"><a class="demo-footer-logo" href="#copertina"><img src="/images/logo.png" width="1642" height="660" alt="Da Vivere! con Giulia"></a><p>Le cose belle iniziano<br>con un ciao.</p></div>
+        <div class="demo-footer-top"><a class="demo-footer-logo" href="#copertina"><img :src="publicAsset('/images/logo.png')" width="1642" height="660" alt="Da Vivere! con Giulia"></a><p>Le cose belle iniziano<br>con un ciao.</p></div>
         <div class="demo-footer-columns"><nav aria-label="Esplora il sito"><h2>Esplora</h2><a href="#esperienze">Esperienze</a><a href="#con-giulia">Giulia Chat</a><a href="#community">Community</a></nav><div><h2>Restiamo in contatto</h2><a :href="`mailto:${site.email}`">{{ site.email }}</a><a :href="site.instagram" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div><div><h2>Per le attività</h2><a href="#entra-nella-guida">Entra nella guida ↗</a></div></div>
         <div class="demo-footer-bottom"><span>© {{ year }} {{ site.name }}</span><span>Demo</span><a href="#copertina">Torna su ↑</a></div>
       </div>

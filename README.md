@@ -39,3 +39,6 @@ Per i test browser installare Chromium con `npx playwright install chromium`. Il
 Nuxt 4, Vue 3, TypeScript, Tailwind CSS 4, Nuxt Image e Leaflet. Mappe OpenStreetMap con attribuzione. Cabinet Grotesk tramite Fontshare. Fotografie e logo dall’archivio fornito; video Vimeo fornito dall’utente, convertito in WebM con fallback MP4 e senza audio.
 
 I file `.env`, gli output di build, gli strumenti temporanei e l’archivio del vecchio sito sono esclusi dal repository. `.env.example` contiene soltanto la variabile opzionale `NUXT_PUBLIC_SITE_URL`.
+## GitHub Pages
+
+Il workflow `.github/workflows/pages.yml` genera il sito con `npm run generate` e pubblica `.output/public`. In Settings → Pages la sorgente deve essere **GitHub Actions**. Il workflow imposta `NUXT_APP_BASE_URL=/DaVivereConGiulia/`; logo, video e immagini dei popup rispettano questo prefisso. Il sito è disponibile su https://itsnicoletta.github.io/DaVivereConGiulia/.

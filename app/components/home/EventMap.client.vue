@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const publicAsset = usePublicAsset()
 import type { DemoEvent } from '~/data/events'
 import type { Map, FeatureGroup } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -22,7 +23,7 @@ function updateMarkers() {
     const card = document.createElement('div')
     card.className = 'map-event-card'
     const image = document.createElement('img')
-    image.src = event.image
+    image.src = publicAsset(event.image)
     image.alt = event.alt
     image.width = 240
     image.height = 130

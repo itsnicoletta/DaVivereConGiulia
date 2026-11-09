@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const publicAsset = usePublicAsset()
 import { site } from '~/data/site'
 const playing = ref(false)
 let motion: MediaQueryList | undefined
@@ -17,7 +18,7 @@ onBeforeUnmount(() => motion?.removeEventListener('change', respectMotion))
     <div class="cover-composition">
       <aside class="cover-index"><figure><NuxtImg src="/images/tavola.jpg" alt="Calici e fiori su una tavola illuminata da candele" width="400" height="500" sizes="40vw md:17vw" format="webp" loading="eager" /><figcaption>Dettagli che restano.</figcaption></figure></aside>
       <figure class="cover-main"><NuxtImg src="/images/demo-three-cover.jpg" alt="Una persona sfoglia un menu a tavola, fotografia editoriale dall’archivio fornito" width="1000" height="1253" sizes="70vw md:35vw" format="webp" preload loading="eager" fetchpriority="high" /><figcaption><span>01 / Un momento, da vicino.</span><span>Archivio visivo</span></figcaption></figure>
-      <div class="cover-margin"><figure><div class="margin-video"><NuxtImg src="/images/cover-poster.jpg" alt="Un fotogramma del diario video di Giulia, sotto i portici" width="848" height="480" sizes="40vw md:22vw" format="webp" loading="eager" /><video v-if="playing" autoplay muted loop playsinline preload="metadata" aria-hidden="true" @error="playing = false"><source :src="site.coverVideo" type="video/webm"><source :src="site.coverVideoFallback" type="video/mp4"></video></div><figcaption>La voglia di andare.</figcaption></figure></div>
+      <div class="cover-margin"><figure><div class="margin-video"><NuxtImg src="/images/cover-poster.jpg" alt="Un fotogramma del diario video di Giulia, sotto i portici" width="848" height="480" sizes="40vw md:22vw" format="webp" loading="eager" /><video v-if="playing" autoplay muted loop playsinline preload="metadata" aria-hidden="true" @error="playing = false"><source :src="publicAsset(site.coverVideo)" type="video/webm"><source :src="publicAsset(site.coverVideoFallback)" type="video/mp4"></video></div><figcaption>La voglia di andare.</figcaption></figure></div>
     </div>
   </section>
 </template>
