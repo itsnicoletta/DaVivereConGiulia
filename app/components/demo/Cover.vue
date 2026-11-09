@@ -77,7 +77,7 @@ figcaption { font-size: 16px; color: #66615f; line-height: 1.35; margin-top: 10p
   .cover-edition { position: relative; grid-row: 1; }
   .cover-welcome { position: relative; grid-row: 2; align-self: end; padding: 0; }
   .cover-description { color: #fff; }
-  .cover-highlight { color: #242020; background: #e6d4cf; }
+  .cover-highlight { color: inherit; background: transparent; padding: 0; }
   .cover-cta { background: #fff; border-color: #fff; color: #242020; }
   .cover-cta:hover { background: #e6dcd9; border-color: #e6dcd9; }
 }
