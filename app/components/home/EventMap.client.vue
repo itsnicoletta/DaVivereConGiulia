@@ -35,7 +35,14 @@ function updateMarkers() {
     date.textContent = event.date
     const button = document.createElement('button')
     button.type = 'button'
-    button.textContent = 'Scopri l’evento ↗'
+    button.textContent = 'Scopri l’evento '
+    const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    arrow.setAttribute('viewBox', '0 0 24 24')
+    arrow.setAttribute('width', '18')
+    arrow.setAttribute('height', '18')
+    arrow.setAttribute('aria-hidden', 'true')
+    arrow.innerHTML = '<path d="M5 19 19 5M5 5h14v14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />'
+    button.append(arrow)
     button.addEventListener('click', () => emit('open', event))
     card.append(image, title, location, date, button)
     leaflet!.marker(event.coordinates, {
@@ -70,7 +77,7 @@ onBeforeUnmount(() => { disposed = true; map?.remove() })
 <template>
   <div class="event-map-explorer">
     <div ref="container" class="event-map-canvas" role="region" aria-label="Mappa interattiva degli eventi" />
-    <div v-if="failed" class="map-unavailable"><p>La mappa non è disponibile in questo momento.</p><button v-for="event in events" :key="event.id" class="text-link" @click="emit('open', event)">{{ event.title }} ↗</button></div>
+    <div v-if="failed" class="map-unavailable"><p>La mappa non è disponibile in questo momento.</p><button v-for="event in events" :key="event.id" class="text-link" @click="emit('open', event)">{{ event.title }} <UiIcon name="arrow-up-right" /></button></div>
   </div>
 </template>
 

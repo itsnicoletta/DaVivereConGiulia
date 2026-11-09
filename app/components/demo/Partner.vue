@@ -8,7 +8,7 @@ const proposalUrl = `mailto:${site.email}?subject=${encodeURIComponent('Vorrei p
     <div class="section-label"><span>04 / Per le attività e i luoghi da scoprire</span><span>Facciamo conoscenza.</span></div>
     <div class="proposal-layout">
       <div><p class="eyebrow">Dietro ogni bel posto, c’è una storia.</p><h2 id="proposal-heading">Vuoi far parte<br>della <span class="accent">mia guida?</span></h2></div>
-      <div class="proposal-copy"><p>Hai un <strong>ristorante</strong>, una <strong>struttura ricettiva</strong> o un’esperienza da far conoscere? Mi piacerebbe scoprire che cosa rende <strong>speciale il tuo progetto</strong>.</p><p>Raccontami il tuo luogo, le persone che lo animano e la tua idea. Partiamo da una <strong>conversazione</strong>.</p><a class="hero-primary" :href="proposalUrl"><span>Proponi la tua attività</span><span aria-hidden="true">↗</span></a></div>
+      <div class="proposal-copy"><p>Hai un <strong>ristorante</strong>, una <strong>struttura ricettiva</strong> o un’esperienza da far conoscere? Mi piacerebbe scoprire che cosa rende <strong>speciale il tuo progetto</strong>.</p><p>Raccontami il tuo luogo, le persone che lo animano e la tua idea. Partiamo da una <strong>conversazione</strong>.</p><a class="hero-primary" :href="proposalUrl"><span>Proponi la tua attività</span><span aria-hidden="true"><UiIcon name="arrow-up-right" /></span></a></div>
     </div>
   </section>
 </template>
