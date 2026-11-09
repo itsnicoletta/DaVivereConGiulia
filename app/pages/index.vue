@@ -232,3 +232,11 @@ const year = new Date().getFullYear()
   .demo-mix > .demo-footer { min-height: 90svh; }
 }
 </style>
+<style scoped>
+.demo-mix .d2-header { position: sticky; top: 0; z-index: 40; width: 100%; background: #fff; padding-inline: max(48px, calc((100% - 1520px) / 2)); }
+:global(html:has(.demo-mix)) { scroll-padding-top: 126px; }
+@media (max-width: 767px) {
+  .demo-mix .d2-header { padding-inline: 24px; }
+  :global(html:has(.demo-mix)) { scroll-padding-top: 108px; }
+}
+</style>

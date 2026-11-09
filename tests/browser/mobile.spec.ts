@@ -34,6 +34,7 @@ for (const width of [320, 360, 390, 430]) {
     await panel.getByRole('link', { name: /Esperienze/ }).click()
     await expect(panel).not.toBeVisible()
     await expect(page).toHaveURL(/#esperienze$/)
+    expect((await page.locator('.d2-header').boundingBox())!.y).toBeCloseTo(0, 0)
     await page.getByRole('button', { name: 'Scopri Ci vediamo a tavola.' }).click()
     await expect(page.getByRole('dialog')).toContainText('Ci vediamo a tavola.')
     await page.getByRole('button', { name: 'Chiudi dettagli evento' }).click()
