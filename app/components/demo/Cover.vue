@@ -18,7 +18,7 @@ onBeforeUnmount(() => motion?.removeEventListener('change', respectMotion))
     <div class="cover-composition">
       <aside class="cover-index"><figure><NuxtImg src="/images/tavola.jpg" alt="Calici e fiori su una tavola illuminata da candele" width="400" height="500" sizes="40vw md:17vw" format="webp" loading="eager" /><figcaption>Dettagli che restano.</figcaption></figure></aside>
       <figure class="cover-main"><NuxtImg src="/images/demo-three-cover.jpg" alt="Una persona sfoglia un menu a tavola, fotografia editoriale dall’archivio fornito" width="1000" height="1253" sizes="70vw md:35vw" format="webp" preload loading="eager" fetchpriority="high" /><figcaption><span>01 / Un momento, da vicino.</span><span>Archivio visivo</span></figcaption></figure>
-      <div class="cover-margin"><figure><div class="margin-video"><NuxtImg src="/images/cover-poster.jpg" alt="Un fotogramma del diario video di Giulia, sotto i portici" width="848" height="480" sizes="40vw md:22vw" format="webp" loading="eager" /><video v-if="playing" autoplay muted loop playsinline preload="metadata" aria-hidden="true" @error="playing = false"><source :src="publicAsset(site.coverVideo)" type="video/webm"><source :src="publicAsset(site.coverVideoFallback)" type="video/mp4"></video></div><figcaption>La voglia di andare.</figcaption></figure></div>
+      <div class="cover-margin"><figure><div class="margin-video"><NuxtImg src="/images/cover-poster.jpg" alt="Un fotogramma del diario video di Giulia, sotto i portici" width="848" height="480" sizes="100vw md:22vw" format="webp" loading="eager" /><video v-if="playing" autoplay muted loop playsinline preload="metadata" aria-hidden="true" @error="playing = false"><source :src="publicAsset(site.coverVideo)" type="video/webm"><source :src="publicAsset(site.coverVideoFallback)" type="video/mp4"></video></div><figcaption>La voglia di andare.</figcaption></figure></div>
     </div>
   </section>
 </template>
@@ -65,5 +65,20 @@ figcaption { font-size: 16px; color: #66615f; line-height: 1.35; margin-top: 10p
   .cover-main { grid-column: 2; grid-row: 2; margin-top: 0; }
   .cover-main img { aspect-ratio: 4/3; object-position: center 30%; }
   figcaption { display: none !important; }
+}
+@media (max-width: 767px) {
+  .cover { position: relative; isolation: isolate; width: 100%; min-height: 90svh; padding: 48px 24px; grid-template-rows: auto 1fr; row-gap: 48px; color: #fff; overflow: hidden; }
+  .cover-composition { position: absolute; grid-area: auto; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; margin: 0; padding: 0; }
+  .cover-index, .cover-main { display: none; }
+  .cover-margin, .cover-margin > figure, .margin-video { width: 100%; height: 100%; margin: 0; }
+  .margin-video { aspect-ratio: auto; }
+  .margin-video > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cover::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(20 16 14 / .48), rgb(20 16 14 / .68) 55%, rgb(20 16 14 / .8)); pointer-events: none; }
+  .cover-edition { position: relative; grid-row: 1; }
+  .cover-welcome { position: relative; grid-row: 2; align-self: end; padding: 0; }
+  .cover-description { color: #fff; }
+  .cover-highlight { color: #242020; background: #e6d4cf; }
+  .cover-cta { background: #fff; border-color: #fff; color: #242020; }
+  .cover-cta:hover { background: #e6dcd9; border-color: #e6dcd9; }
 }
 </style>
