@@ -14,8 +14,8 @@ function previewSignup() {
     <div class="community-intro">
       <p class="eyebrow">Un posto anche per te.</p>
       <h2 id="community-heading">Le cose belle,<br><span class="accent">condividiamole.</span></h2>
-      <p><strong>Nuovi eventi</strong>, piccole scoperte e un invito a ritrovarci.<br>Entra nella <strong>community</strong> e continua a esplorare con me.</p>
-      <p class="community-invitation">Su Instagram, tra un racconto e l’altro.<br>Nella <strong>newsletter</strong>, con una bella notizia ogni tanto.</p>
+      <p><strong>Nuovi eventi</strong>, piccole scoperte e un invito a ritrovarci.<br> Entra nella <strong>community</strong> e continua a esplorare con me.</p>
+      <p class="community-invitation">Su Instagram, tra un racconto e l’altro.<br> Nella <strong>newsletter</strong>, con una bella notizia ogni tanto.</p>
     </div>
     <div class="community-strip" :class="{ 'community-with-embed': instagramEmbed }">
       <div v-if="instagramEmbed" class="community-embed"><iframe scrolling="no" src="https://www.instagram.com/giuliarag_/embed/" title="Il profilo Instagram di Giulia" width="400" height="540" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><figure v-else class="community-visual"><NuxtImg src="/images/incontri.jpg" alt="Un brindisi a tavola dall’archivio del sito originale" width="720" height="900" sizes="100vw sm:50vw lg:25vw" format="webp" loading="lazy" /></figure>
