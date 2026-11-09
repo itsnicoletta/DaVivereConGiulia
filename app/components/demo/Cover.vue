@@ -43,8 +43,22 @@ h1 > span { display: block; font-size: clamp(26px, 2.4vw, 36px); font-weight: 40
 .margin-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.85) contrast(1.1) brightness(1.14); }
 figcaption { font-size: 16px; color: #66615f; line-height: 1.35; margin-top: 10px; }
 @media (min-width: 768px) and (max-width: 1100px) { .cover { column-gap: 32px; grid-template-columns: 1fr 1fr; grid-template-rows: auto minmax(0, 1fr); } h1 { font-size: clamp(52px, 6.8vw, 80px); } .cover-description { font-size: 18px; } .cover-index { margin-top: 125px; } }
-@media (max-width: 767px) { .cover { width: calc(100% - 40px); min-height: auto; padding-block: 48px; grid-template-columns: 1fr; grid-template-rows: auto; row-gap: 30px; } .cover-edition { gap: 16px; } .cover-welcome { padding: 0; } h1 { font-size: clamp(52px, 13vw, 88px); max-width: 540px; } h1 > span { font-size: 28px; margin-top: 16px; } .cover-description { font-size: 18px; margin-top: 22px; } .cover-cta { margin-top: 24px; } .cover-composition { margin-top: 12px; padding: 10px 0 40px; gap: 12px; } .cover-index { margin-top: 100px; } .cover-main { margin-top: 40px; } }
+@media (max-width: 767px) { .cover { width: calc(100% - 48px); min-height: 90svh; padding-block: 48px; grid-template-columns: 1fr; grid-template-rows: auto; row-gap: 30px; } .cover-edition { gap: 16px; } .cover-welcome { padding: 0; } h1 { font-size: clamp(52px, 13vw, 88px); max-width: 540px; } h1 > span { font-size: 28px; margin-top: 32px; } .cover-description { font-size: 18px; margin-top: 22px; } .cover-cta { margin-top: 24px; } .cover-composition { margin-top: 12px; padding: 10px 0 40px; gap: 12px; } .cover-index { margin-top: 100px; } .cover-main { margin-top: 40px; } }
 @media (prefers-reduced-motion: reduce) { .cover-cta { transition: none; } }
 
 .cover-highlight { background: #e6d4cf; color: inherit; padding: .08em .22em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+@media (max-width: 767px) {
+  .cover { padding-block: 56px; row-gap: 60px; }
+  .cover-composition { grid-row: 2; }
+  .cover-welcome { grid-row: 3; }
+  .cover-edition { font-size: 16px; text-transform: none; letter-spacing: 0; }
+  .cover-edition > span:last-child { display: none; }
+  h1 { font-size: clamp(48px, 12.8vw, 78px); line-height: 1; }
+  .cover-description { font-size: 18px; line-height: 1.65; margin-top: 36px; }
+  .cover-cta { width: auto; min-height: 48px; padding: 12px 18px; gap: 24px; font-size: 16px; margin-top: 40px; }
+  .cover-composition { margin-top: 0; padding: 0; }
+  .cover-index { margin-top: 64px; }
+  .cover-main { margin-top: 24px; }
+  figcaption { display: none !important; }
+}
 </style>

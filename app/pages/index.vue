@@ -6,6 +6,8 @@ definePageMeta({ standalone: true, alias: ['/demo'] })
 useSeoMeta({ title: 'Da Vivere con Giulia | Demo', description: 'Luoghi, incontri e nuove prospettive. Un invito a vivere le cose belle, con Giulia.', robots: 'noindex, nofollow' })
 const menuOpen = ref(false)
 const menuButton = ref<HTMLButtonElement>()
+const mobileMenuDialog = ref<HTMLDialogElement>()
+function openMobileMenu() { mobileMenuDialog.value?.showModal(); menuOpen.value = true }
 const nav = [{ title: 'Esperienze', href: '#esperienze' }, { title: 'Giulia Chat', href: '#con-giulia' }, { title: 'Community', href: '#community' }, { title: 'Partner', href: '#entra-nella-guida' }]
 const ready = ref(false)
 onMounted(() => { ready.value = true })
@@ -51,18 +53,23 @@ const year = new Date().getFullYear()
   <div class="d2 demo-mix">
     <header class="d2-header d2-shell" @keydown.esc="menuOpen = false; menuButton?.focus()">
       <a href="#copertina" class="d2-logo" aria-label="Da Vivere con Giulia, inizio"><img src="/images/logo.png" width="1642" height="660" alt="Da Vivere! con Giulia"></a>
-      <button ref="menuButton" class="d2-menu" :aria-expanded="menuOpen" aria-controls="d2-navigation" @click="menuOpen = !menuOpen">{{ menuOpen ? 'Chiudi −' : 'Esplora +' }}</button>
-      <nav id="d2-navigation" :class="{ open: menuOpen }" aria-label="Navigazione principale"><a v-for="(item, index) in nav" :key="item.href" :href="item.href" @click="menuOpen = false"><span>0{{ index + 1 }}</span>{{ item.title }}</a></nav>
+      <button ref="menuButton" class="d2-menu" :disabled="!ready" :aria-expanded="menuOpen" aria-controls="mobile-navigation" @click="openMobileMenu">Menu <span class="demo-menu-icon" aria-hidden="true"><i></i><i></i></span></button>
+      <nav id="d2-navigation" aria-label="Navigazione principale"><a v-for="(item, index) in nav" :key="item.href" :href="item.href" @click="menuOpen = false"><span>0{{ index + 1 }}</span>{{ item.title }}</a></nav>
       <button class="d2-button demo-contact-button" type="button" disabled>Facciamo conoscenza <span aria-hidden="true">↗</span></button>
     </header>
 
+    <dialog ref="mobileMenuDialog" class="demo-mobile-menu" aria-label="Menu principale" @close="menuOpen = false">
+      <div class="demo-mobile-menu-top"><a class="demo-menu-logo" href="#copertina" @click="mobileMenuDialog?.close()"><img src="/images/logo.png" width="1642" height="660" alt="Da Vivere! con Giulia"></a><button class="demo-menu-close" type="button" @click="mobileMenuDialog?.close()">Chiudi <span aria-hidden="true">×</span></button></div>
+      <nav id="mobile-navigation" aria-label="Navigazione mobile"><a v-for="(item, index) in nav" :key="item.href" :href="item.href" @click="mobileMenuDialog?.close()"><span class="demo-menu-number">0{{ index + 1 }}</span><span>{{ item.title }}</span><span aria-hidden="true">↗</span></a></nav>
+      <div class="demo-menu-bottom"><p>Luoghi, incontri e cose belle.<br>Da vivere, con Giulia.</p><button class="d2-button" type="button" disabled>Facciamo conoscenza <span aria-hidden="true">↗</span></button></div>
+    </dialog>
     <main id="contenuto">
       <DemoCover />
 
       <div class="demo-events-background"><section id="esperienze" class="d2-experiences d2-shell" aria-labelledby="d2-events-title">
         <div class="d2-section-index"><span>01 / Incontriamoci</span><span>Occasioni per dire: ci sono.</span></div>
         <div class="d2-section-heading"><h2 id="d2-events-title">Da segnare.<br><em>Da vivere.</em></h2><p>A volte basta <strong>un invito</strong>.<br>Una tavola, un panorama,<br>una bella ragione per uscire.</p></div>
-        <div class="d2-event-tools"><div role="group" aria-label="Visualizzazione eventi"><button v-for="option in ['Lista', 'Mappa', 'Calendario']" :key="option" :aria-pressed="view === option" @click="view = option">{{ option }}</button></div><label><span class="sr-only">Tipo di esperienza</span><select v-model="category"><option v-for="option in categories" :key="option">{{ option }}</option></select></label></div>
+        <div class="d2-event-tools"><div role="group" aria-label="Visualizzazione eventi"><button v-for="option in ['Lista', 'Mappa', 'Calendario']" :key="option" :aria-pressed="view === option" @click="view = option">{{ option }}</button></div><label><span class="sr-only demo-filter-label">Tipo di esperienza</span><select v-model="category"><option v-for="option in categories" :key="option" :value="option">{{ option === 'Tutte' ? 'Tutte le esperienze' : option }}</option></select></label></div>
         <div v-if="view === 'Lista'" id="d2-event-list" class="d2-event-grid"><article v-for="(event, index) in filtered.slice(0, visibleCount)" :key="event.id" class="d2-event"><button class="d2-event-photo" :aria-label="`Scopri ${event.title}`" @click="openEvent(event)"><NuxtImg :src="event.image" :alt="event.alt" width="720" height="900" sizes="100vw sm:50vw lg:33vw" format="webp" loading="lazy" /><span class="d2-event-number">0{{ index + 1 }}</span><span class="d2-event-photo-arrow" aria-hidden="true">↗</span></button><div class="d2-event-copy"><p>{{ event.category }}</p><h3><button @click="openEvent(event)">{{ event.title }}</button></h3><span>{{ event.location }} / {{ event.date }}</span></div></article><div v-if="visibleCount < filtered.length" class="d2-events-more"><button class="d2-button" :disabled="!ready" aria-controls="d2-event-list" @click="visibleCount += 6">Mostra di più <span aria-hidden="true">+</span></button></div></div>
         <HomeEventMap v-else-if="view === 'Mappa'" :events="filtered" @open="openEvent" />
         <div v-else class="d2-calendar"><div class="d2-calendar-top"><h3>{{ monthLabel }}</h3><div><button aria-label="Mese precedente" @click="changeMonth(-1)">←</button><button aria-label="Mese successivo" @click="changeMonth(1)">→</button></div></div><table :aria-label="`Calendario eventi: ${monthLabel}`"><thead><tr><th v-for="day in ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']" :key="day">{{ day }}</th></tr></thead><tbody><tr v-for="week in calendarDays.length / 7" :key="week"><td v-for="(day, index) in calendarDays.slice((week - 1) * 7, week * 7)" :key="index" :class="{ 'has-events': day && onDay(day).length > 0 }"><template v-if="day"><span>{{ day }}</span><button v-for="event in onDay(day)" :key="event.id" :aria-label="event.title" @click="openEvent(event)"><span>{{ event.title }}</span><i aria-hidden="true">●</i></button></template></td></tr></tbody></table><div class="d2-calendar-agenda"><h3>Le esperienze del mese</h3><p v-if="!scheduled.length" class="d2-calendar-empty">Nessun evento in programma per questo mese.</p><button v-for="event in scheduled" :key="event.id" @click="openEvent(event)"><strong>{{ event.startsAt?.slice(8, 10) }}</strong><span>{{ event.title }}<small>{{ event.location }} · {{ event.date }}</small></span><span aria-hidden="true">↗</span></button></div></div>
@@ -129,4 +136,98 @@ const year = new Date().getFullYear()
 .demo-mix > main > :deep(.community), .demo-mix > main > :deep(.guide-proposal) { padding-top: 0; margin-top: var(--section-space); }
 .demo-mix > .demo-footer { margin-top: var(--section-space); }
 @media (max-width: 767px) { .demo-mix { --section-space: 80px; } .demo-mix > main > .demo-events-background { padding-block: 48px; } }
+</style>
+<style scoped>
+.demo-mobile-menu { border: 0; padding: 24px; margin: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; background: #faf9f9; color: #242020; }
+.demo-mobile-menu[open] { display: flex; flex-direction: column; }
+.demo-mobile-menu::backdrop { background: #24202066; }
+.demo-mobile-menu-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-bottom: 28px; }
+.demo-menu-logo { display: block; width: 140px; }
+.demo-menu-logo img { height: auto; filter: brightness(0); }
+.demo-menu-close { display: inline-flex; align-items: center; gap: 14px; min-height: 48px; padding: 8px; border: 0; background: transparent; font-size: 16px; }
+.demo-menu-close span { font-size: 30px; line-height: 1; }
+.demo-mobile-menu nav { display: flex; flex-direction: column; margin-top: 28px; }
+.demo-mobile-menu nav a { display: grid; grid-template-columns: 28px 1fr 24px; align-items: center; gap: 14px; min-height: 78px; padding-block: 18px; border-bottom: 1px solid #e0d8d5; font-size: clamp(25px, 7vw, 34px); font-weight: 500; letter-spacing: -.025em; }
+.demo-mobile-menu nav a:first-child { border-top: 1px solid #e0d8d5; }
+.demo-menu-number { font-size: 16px; color: #80645f; letter-spacing: 0; }
+.demo-menu-bottom { margin-top: auto; padding-top: 36px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.demo-menu-bottom p { font-size: 17px; color: #66615f; margin-bottom: 24px; }
+.demo-menu-bottom button { width: 100%; opacity: .6; }
+:global(html:has(.demo-mobile-menu[open])) { overflow: hidden; }
+@media (max-width: 767px) {
+  .demo-mix .d2-header { min-height: 84px; flex-wrap: nowrap; padding-block: 16px; }
+  .demo-mix .d2-header > .demo-contact-button, .demo-mix .d2-header > nav { display: none; }
+  .demo-mix .d2-menu { display: inline-flex; align-items: center; gap: 14px; min-height: 48px; padding: 10px 0 10px 16px; }
+  .demo-menu-icon { width: 22px; display: grid; gap: 6px; }
+  .demo-menu-icon i { display: block; height: 1px; background: currentColor; }
+  .demo-mix .d2-section-index { align-items: flex-start; gap: 20px; }
+  .demo-mix .d2-section-index > span:last-child { display: none; }
+.demo-mix :deep(.section-label) { gap: 16px; line-height: 1.5; }
+.demo-mix :deep(.section-label > span:last-child) { display: none; }
+  .demo-mix .d2-section-heading > p br { display: none; }
+  .demo-mix .d2-event-copy { padding: 20px; }
+  .demo-mix .d2-event-tools button { min-height: 48px; }
+  .demo-mix .d2-chat-photo { display: none; }
+  .demo-mix .d2-chat-layout { margin-top: 30px; gap: 28px; }
+  .demo-mix .d2-conversation { padding: 24px 20px; }
+  .demo-mix .d2-conversation input { font-size: 16px; }
+  .demo-mix .demo-footer-bottom > span:nth-child(2) { display: none; }
+}
+</style>
+<style scoped>
+@media (max-width: 767px) {
+  .demo-mix { --section-space: 120px; }
+  .demo-mix > main > .demo-events-background { padding-block: 80px; }
+  .demo-mix .d2-section-heading { margin-top: 40px; margin-bottom: 36px; gap: 28px; }
+  .demo-mix .d2-event-tools { gap: 20px; margin-bottom: 32px; padding-bottom: 24px; }
+  .demo-mix .d2-event-grid { gap: 40px; }
+  .demo-mix .d2-event-copy { padding: 24px 22px 28px; }
+  .demo-mix .d2-event-copy > p { margin-bottom: 14px; }
+  .demo-mix .d2-event-copy h3 { margin-bottom: 16px; line-height: 1.1; }
+  .demo-mix .d2-events-more { margin-top: 0; }
+  .demo-mix .d2-chat-layout { margin-top: 48px; gap: 48px; }
+  .demo-mix .d2-chat-intro { margin-top: 28px; line-height: 1.65; }
+  .demo-mix .d2-conversation { padding: 32px 22px; }
+  .demo-mix .d2-chat-prompts { margin-block: 32px; }
+  .demo-mix .d2-chat-prompts button { min-height: 60px; padding-block: 20px; }
+  .demo-mix :deep(.community-intro) { margin: 48px auto 56px; }
+  .demo-mix :deep(.community-intro .eyebrow) { margin-bottom: 24px; }
+  .demo-mix :deep(.community-intro h2) { margin-bottom: 28px; line-height: 1.08; }
+  .demo-mix :deep(.community-invitation) { margin-top: 28px; }
+  .demo-mix :deep(.community-strip) { gap: 36px; }
+  .demo-mix :deep(.community-instagram) { padding: 28px 22px; }
+  .demo-mix :deep(.community-newsletter) { margin-top: 0; padding: 32px 22px; }
+  .demo-mix :deep(.newsletter-form) { margin-top: 32px; }
+  .demo-mix :deep(.proposal-layout) { padding-top: 40px; gap: 32px; }
+  .demo-mix :deep(.proposal-copy > p) { margin-bottom: 24px; line-height: 1.65; }
+  .demo-mix :deep(.proposal-copy .hero-primary) { margin-top: 12px; }
+}
+</style>
+<style scoped>
+@media (max-width: 767px) {
+  .demo-mix .d2-shell, .demo-mix .demo-footer-inner, .demo-mix :deep(.wrap) { width: calc(100% - 48px); }
+}
+</style>
+<style scoped>
+@media (max-width: 767px) {
+  .demo-mix .d2-event-tools { gap: 24px; border-bottom: 0; padding-bottom: 0; margin-bottom: 36px; }
+  .demo-mix .d2-event-tools > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; width: 100%; padding: 4px; background: #fff; border: 1px solid #c8b6b0; }
+  .demo-mix .demo-events-background .d2-event-tools button { min-width: 0; min-height: 52px; padding: 12px 4px; background: transparent; border: 0; border-bottom: 3px solid transparent; color: #66615f; font-weight: 400; }
+  .demo-mix .demo-events-background .d2-event-tools button[aria-pressed=true] { background: #f4efed; color: #242020; border-bottom-color: #80645f; font-weight: 700; }
+  .demo-mix .d2-event-tools label { display: grid; gap: 10px; width: 100%; }
+  .demo-filter-label { position: static; width: auto; height: auto; padding: 0; margin: 0; overflow: visible; clip: auto; white-space: normal; font-size: 16px; color: #51433f; }
+  .demo-mix .demo-events-background .d2-event-tools select { min-height: 54px; padding: 14px 36px 14px 16px; width: 100%; border-color: #c8b6b0; font-size: 16px; border-radius: 0; }
+}
+</style>
+<style scoped>
+@media (max-width: 767px) {
+  .demo-mix > main > * { min-height: 90svh; }
+  .demo-mix > main > .d2-chat-section, .demo-mix > main > :deep(.community), .demo-mix > main > :deep(.guide-proposal) { display: flex; flex-direction: column; justify-content: center; }
+  .demo-mix .d2-chat-layout { margin-top: 56px; gap: 56px; }
+  .demo-mix :deep(.community-intro) { margin-block: 56px 64px; }
+  .demo-mix :deep(.community-strip) { gap: 48px; }
+  .demo-mix :deep(.proposal-layout) { padding-top: 56px; gap: 48px; }
+  .demo-mix .d2-event-grid { gap: 56px; }
+  .demo-mix > .demo-footer { min-height: 90svh; }
+}
 </style>
