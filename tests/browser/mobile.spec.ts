@@ -9,6 +9,8 @@ for (const width of [320, 360, 390, 430]) {
     await page.goto('/')
     const menu = page.getByRole('button', { name: 'Menu', exact: true })
     await expect(menu).toBeEnabled()
+    expect((await page.locator('.margin-video').boundingBox())!.width).toBeGreaterThan(width * .8)
+    expect((await page.locator('.cover-index img').boundingBox())!.width).toBeGreaterThan(width * .35)
     expect((await page.locator('.d2-header').boundingBox())!.height).toBeLessThanOrEqual(100)
     await menu.click()
     const panel = page.getByRole('dialog', { name: 'Menu principale' })

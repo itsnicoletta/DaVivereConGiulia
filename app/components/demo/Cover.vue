@@ -57,9 +57,13 @@ figcaption { font-size: 16px; color: #66615f; line-height: 1.35; margin-top: 10p
   h1 { font-size: clamp(48px, 12.8vw, 78px); line-height: 1; }
   .cover-description { font-size: 18px; line-height: 1.65; margin-top: 36px; }
   .cover-cta { width: auto; min-height: 48px; padding: 12px 18px; gap: 24px; font-size: 16px; margin-top: 40px; }
-  .cover-composition { margin-top: 0; padding: 0; }
-  .cover-index { margin-top: 64px; }
-  .cover-main { margin-top: 24px; }
+  .cover-composition { margin-top: 0; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .cover-margin { grid-column: 1 / -1; grid-row: 1; }
+  .margin-video { aspect-ratio: 4/3; }
+  .cover-index { grid-column: 1; grid-row: 2; margin-top: 24px; }
+  .cover-index img { aspect-ratio: 4/3; }
+  .cover-main { grid-column: 2; grid-row: 2; margin-top: 0; }
+  .cover-main img { aspect-ratio: 4/3; object-position: center 30%; }
   figcaption { display: none !important; }
 }
 </style>
