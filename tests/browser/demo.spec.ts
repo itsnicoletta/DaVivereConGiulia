@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test'
+
+for (const width of [320, 390, 768, 1440]) {
+  test(`demo: composizione e layout a ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.goto('/')
+    await expect(page.locator('.cover h1')).toContainText('Le cose belle, da vivere.')
+    await expect(page.locator('.cover video')).toBeVisible()
+    await expect(page.locator('.cover a')).toHaveCount(1)
+    await page.getByRole('link', { name: 'Scopri gli eventi', exact: true }).click()
+    await expect(page).toHaveURL(/#esperienze$/)
+    await expect(page.locator('.d2-event')).toHaveCount(6)
+    await expect(page.getByRole('button', { name: 'Mostra di più' })).toBeEnabled()
+    await page.getByRole('button', { name: 'Mostra di più' }).click()
+    await expect(page.locator('.d2-event')).toHaveCount(9)
+    const views = page.getByRole('group', { name: 'Visualizzazione eventi' })
+    await views.getByRole('button', { name: 'Mappa', exact: true }).click()
+    await expect(page.locator('.event-map-pin')).toHaveCount(9)
+    await views.getByRole('button', { name: 'Calendario', exact: true }).click()
+    await expect(page.locator('.d2-calendar-agenda button')).toHaveCount(6)
+    await page.getByRole('button', { name: 'Una cena da condividere' }).click()
+    await expect(page.locator('.d2-chat-answer')).toBeVisible()
+    await expect(page.locator('#community')).toBeVisible()
+    await expect(page.locator('#entra-nella-guida')).toBeVisible()
+    await expect(page.locator('footer')).toHaveCSS('background-color', 'rgb(36, 32, 32)')
+    const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')!).filter(href => !document.getElementById(href.slice(1))))
+    expect(brokenAnchors).toEqual([])
+    await page.evaluate(() => document.fonts.ready)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await page.screenshot({ path: `test-results/demo-mix-${width}.png`, fullPage: true })
+  })
+}
