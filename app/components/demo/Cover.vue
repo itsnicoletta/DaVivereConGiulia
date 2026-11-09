@@ -67,7 +67,7 @@ figcaption { font-size: 16px; color: #66615f; line-height: 1.35; margin-top: 10p
   figcaption { display: none !important; }
 }
 @media (max-width: 767px) {
-  .cover { position: relative; isolation: isolate; width: 100%; min-height: 90svh; padding: 48px 24px; grid-template-rows: auto 1fr; row-gap: 48px; color: #fff; overflow: hidden; }
+  .cover { position: relative; isolation: isolate; width: 100%; min-height: 90svh; padding: 48px 24px 72px; grid-template-rows: auto 1fr; row-gap: 48px; color: #fff; overflow: hidden; }
   .cover-composition { position: absolute; grid-area: auto; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; margin: 0; padding: 0; }
   .cover-index, .cover-main { display: none; }
   .cover-margin, .cover-margin > figure, .margin-video { width: 100%; height: 100%; margin: 0; }
