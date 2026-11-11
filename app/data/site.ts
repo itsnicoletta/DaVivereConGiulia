@@ -1,6 +1,6 @@
 // Contatti recuperati dalla copia locale del sito originale; da riconfermare prima del lancio.
 export const site = {
-  name: 'Giulia Ragona',
+  name: 'Giulia Ragone',
   email: 'giulia.ragone@hotmail.it',
   instagram: 'https://www.instagram.com/giuliarag_/',
   instagramLabel: '@giuliarag_',
